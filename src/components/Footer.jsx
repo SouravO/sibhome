@@ -1,152 +1,176 @@
 import React, { useRef } from 'react';
-import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { 
   Globe, 
   Sparkles, 
   Command, 
   Ghost, 
-  Youtube, 
-  Facebook, 
-  Instagram, 
-  Linkedin 
+  ArrowUpRight, 
+  Zap, 
+  Star, 
+  Move
 } from 'lucide-react';
 
-const Footer = () => {
-  const navigate = useNavigate();
+const IndustrialFunky = () => {
   const constraintsRef = useRef(null);
+  const { scrollYProgress } = useScroll();
+  
+  // Parallax for the big background text
+  const xLeft = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"]);
 
-  const socialLinks = [
-    { icon: Linkedin, url: 'https://www.linkedin.com/company/mystartup-school' },
-    { icon: Facebook, url: 'https://www.facebook.com/mystartupschool' },
-    { icon: Instagram, url: 'https://www.instagram.com/mystartup_school/' },
-    { icon: Youtube, url: 'https://www.youtube.com/@mystartupschool' },
-  ];
-
-  return ( 
-    <footer className="relative bg-[#ef6925] text-black min-h-[90vh] flex flex-col justify-center items-center overflow-hidden py-20 pb-32 font-sans">
+  return (
+    <div className="bg-[#8B5CF6] text-black font-sans overflow-x-hidden selection:bg-[#ef6925] selection:text-white">
       
-      {/* 1. INDUSTRIAL BACKGROUND EFFECTS */}
-      <div className="absolute inset-0 z-0">
-         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.1] brightness-100 pointer-events-none" />
-      </div>
-
-      {/* 2. THE FLOATING PHYSICS ZONE */}
-      <div ref={constraintsRef} className="absolute inset-0 z-10 overflow-hidden">
+      {/* 1. PHYSICS LAYER (Draggable "Stickers" throughout the site) */}
+      <div ref={constraintsRef} className="fixed inset-0 z-50 pointer-events-none">
         {[
-          { Icon: Globe, top: '20%', left: '15%', color: '#000' },
-          { Icon: Sparkles, top: '60%', left: '10%', color: '#000' },
-          { Icon: Command, top: '15%', left: '80%', color: '#000' },
-          { Icon: Ghost, top: '70%', left: '85%', color: '#000' },
+          { Icon: Zap, top: '15%', left: '10%', label: 'FAST' },
+          { Icon: Star, top: '60%', left: '85%', label: 'ELITE' },
+          { Icon: Globe, top: '25%', right: '15%', label: 'BLR' },
+          { Icon: Ghost, top: '75%', left: '15%', label: 'BOO!' },
         ].map((item, i) => (
           <motion.div
             key={i}
             drag
             dragConstraints={constraintsRef}
-            dragElastic={0.2}
-            whileDrag={{ scale: 1.2, cursor: 'grabbing' }}
-            initial={{ y: 0 }}
-            animate={{ 
-              y: [0, -20, 0],
-              rotate: [0, 5, -5, 0]
-            }}
-            transition={{ 
-              duration: 4 + i, 
-              repeat: Infinity, 
-              ease: "easeInOut" 
-            }}
-            style={{ top: item.top, left: item.left }}
-            className="absolute p-6 bg-white border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] cursor-grab z-20 hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] transition-shadow"
+            className="absolute p-4 bg-white border-4 border-black shadow-[6px_6px_0px_#000] pointer-events-auto cursor-grab active:cursor-grabbing flex items-center gap-3"
+            style={{ top: item.top, left: item.left, right: item.right }}
           >
-            <item.Icon size={32} style={{ color: item.color }} strokeWidth={2} />
+            <item.Icon size={24} />
+            <span className="font-black text-xs uppercase tracking-tighter">{item.label}</span>
           </motion.div>
         ))}
       </div>
 
-      {/* 3. THE CENTRAL CONTENT */}
-      <div className="relative z-30 text-center space-y-10 px-6">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          className="space-y-4"
+      {/* 2. HERO SECTION */}
+      <section className="relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden">
+        {/* Grainy Noise Overlay */}
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none z-10" />
+        
+        <motion.div 
+          style={{ x: xLeft }}
+          className="absolute top-20 left-0 whitespace-nowrap text-[18vw] font-black opacity-10 select-none leading-none"
         >
-          <div className="flex justify-center gap-2 mb-6">
-            <span className="px-4 py-1 bg-black text-white border-2 border-transparent text-[10px] font-mono tracking-widest uppercase font-bold shadow-[4px_4px_0px_rgba(255,255,255,0.4)]">
-              Final Destination
-            </span>
-          </div>
-          <h2 className="text-7xl md:text-[10rem] font-black tracking-[-0.05em] leading-[0.8] uppercase drop-shadow-[4px_4px_0px_rgba(255,255,255,0.4)]">
-            Beyond<br/>
-            <span className="text-white drop-shadow-[5px_5px_0px_rgba(0,0,0,1)] italic font-serif lowercase px-4">the</span>
-            Horizon
-          </h2>
+          BENGALURU • BENGALURU • BENGALURU
         </motion.div>
 
-        <motion.button
-          whileHover={{ scale: 1.05, letterSpacing: '0.2em' }}
-          className="px-12 py-5 bg-black text-white border-2 border-black hover:bg-white hover:text-black hover:border-black font-black text-sm tracking-widest uppercase transition-all shadow-[6px_6px_0px_rgba(255,255,255,0.4)]"
-        >
-          Initiate Contact
-        </motion.button>
-      </div>
+        <div className="relative z-20 text-center px-6">
+          <motion.div 
+            initial={{ rotate: -5, scale: 0.9 }}
+            animate={{ rotate: 0, scale: 1 }}
+            className="inline-block px-6 py-2 bg-[#ef6925] text-white border-4 border-black shadow-[8px_8px_0px_#000] mb-8"
+          >
+            <p className="font-black uppercase tracking-widest text-sm">Now Admitting 2026</p>
+          </motion.div>
 
-      {/* 4. THE INDUSTRIAL GRID BAR */}
-      {/* FIXED: Added pointer-events-none to the container so it doesn't 
-          block the FAQ button below it.
-      */}
-      <div className="absolute bottom-32 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl z-40 px-4 pointer-events-none">
-        {/* FIXED: Added pointer-events-auto so social links and 
-            buttons inside the bar remain clickable.
-        */}
-        <div className="p-8 bg-white border-4 border-black border-double shadow-[8px_8px_0px_rgba(0,0,0,1)] flex flex-col md:flex-row justify-between items-center gap-10 pointer-events-auto">
-          
-          <div className="flex items-center gap-8">
-            <div className="text-left">
-              <p className="text-[10px] font-mono text-black/50 uppercase tracking-[0.3em] font-bold">JOIN</p>
-              <p className="text-sm font-black text-black uppercase">Startup School</p>
+          <h1 className="text-7xl md:text-[12rem] font-black leading-[0.8] tracking-tighter uppercase mb-12">
+            STAY <br /> 
+            <span className="text-white italic font-serif lowercase drop-shadow-[6px_6px_0px_#000]">funky.</span> <br />
+            GET IN.
+          </h1>
+
+          <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
+            <button className="px-12 py-6 bg-black text-white text-2xl font-black border-4 border-black hover:bg-white hover:text-black transition-all shadow-[10px_10px_0px_#fff]">
+              BOOK CALL
+            </button>
+            <div className="flex items-center gap-4 bg-white p-4 border-4 border-black shadow-[6px_6px_0px_#000]">
+              <Move className="animate-bounce" />
+              <p className="font-bold uppercase text-xs">Drag the icons to play!</p>
             </div>
-            <div className="h-8 w-1 bg-black" />
-          </div>
-
-          {/* SOCIAL MEDIA ICONS WITH LINKS */}
-          <div className="flex gap-4">
-            {socialLinks.map((social, index) => (
-              <motion.a
-                key={index}
-                href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ rotate: 180 }}
-                className="p-3 bg-black text-white border-2 border-black rounded-none cursor-pointer transition-colors hover:bg-white hover:text-black shadow-[4px_4px_0px_rgba(0,0,0,0.2)]"
-              >
-                <social.icon size={18} />
-              </motion.a>
-            ))}
-          </div>
-          
-          <div className="text-left flex items-center gap-4">
-             <div className="h-8 w-1 bg-black" />
-             <div>
-              <p className="text-[10px] font-mono text-black/50 uppercase tracking-[0.3em] font-bold">NOT AN </p>
-              <p className="text-lg font-black text-[#ef6925]">MBA</p>
-             </div>
           </div>
         </div>
+      </section>
+
+      {/* 3. MARQUEE BAR */}
+      <div className="bg-white border-y-8 border-black py-6 overflow-hidden flex">
+        <motion.div 
+          animate={{ x: [0, -1000] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="flex whitespace-nowrap gap-20 items-center"
+        >
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="flex items-center gap-10">
+              <span className="text-5xl font-black uppercase text-black italic">Admission Guaranteed</span>
+              <div className="w-12 h-12 bg-[#ef6925] border-4 border-black rotate-45" />
+            </div>
+          ))}
+        </motion.div>
       </div>
 
-      {/* 5. SUBTLE BOTTOM BAR (FAQ is now clickable) */}
-      <div className="absolute bottom-16 left-1/2 -translate-x-1/2 flex gap-10 text-[9px] font-mono text-black/40 uppercase tracking-[0.5em] font-bold z-50">
-        <span>©2026</span>
-        <span>startupschool</span>
-        <button
-          onClick={() => navigate('/faq')}
-          className="hover:text-white transition-colors underline decoration-dotted hover:decoration-solid cursor-pointer pointer-events-auto"
-        >
-          FAQ
-        </button>
-      </div>
-    </footer>
+      {/* 4. CONTENT GRID (Brutalist Bento) */}
+      <section className="py-40 px-6 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-12 gap-8">
+          
+          <div className="md:col-span-8 bg-white border-8 border-black p-12 shadow-[15px_15px_0px_#000] relative group">
+            <h2 className="text-6xl font-black uppercase mb-6 leading-none">Engineering <br />The Future.</h2>
+            <p className="text-xl font-bold text-zinc-600 mb-10 max-w-md">We don't do boring counseling. We do strategic career architecture.</p>
+            <div className="flex gap-4">
+              <span className="px-4 py-2 bg-black text-white font-black text-xs">01. SHORTLIST</span>
+              <span className="px-4 py-2 bg-black text-white font-black text-xs">02. ADMIT</span>
+              <span className="px-4 py-2 bg-black text-white font-black text-xs">03. FLY</span>
+            </div>
+            <ArrowUpRight className="absolute top-10 right-10 group-hover:rotate-45 transition-transform" size={48} />
+          </div>
+
+          <div className="md:col-span-4 bg-[#ef6925] border-8 border-black p-12 shadow-[15px_15px_0px_#000] flex flex-col justify-between text-white">
+            <Sparkles size={60} strokeWidth={3} />
+            <div>
+              <p className="text-7xl font-black leading-none uppercase">100%</p>
+              <p className="font-bold uppercase tracking-widest mt-4">Local Presence</p>
+            </div>
+          </div>
+
+          <div className="md:col-span-5 bg-black text-white border-8 border-black p-12 shadow-[15px_15px_0px_#ef6925]">
+             <h3 className="text-4xl font-black uppercase mb-4 italic">The BLR Edge</h3>
+             <p className="text-zinc-400 font-bold italic">"Studying in Bengaluru is not a degree, it's a global internship."</p>
+          </div>
+
+          <div className="md:col-span-7 bg-white border-8 border-black p-12 shadow-[15px_15px_0px_#000] flex items-center justify-between overflow-hidden">
+             <div className="space-y-2">
+                <p className="text-4xl font-black uppercase">Start Your</p>
+                <p className="text-6xl font-black uppercase text-[#ef6925] drop-shadow-[2px_2px_0px_#000]">Journey.</p>
+             </div>
+             <motion.div 
+              animate={{ rotate: 360 }}
+              transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
+              className="w-32 h-32 bg-[#8B5CF6] border-4 border-black rounded-full flex items-center justify-center"
+             >
+                <Command size={48} color="white" />
+             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. CTA SECTION */}
+      <section className="py-40 bg-white border-t-8 border-black flex flex-col items-center justify-center text-center">
+        <h2 className="text-6xl md:text-9xl font-black uppercase leading-[0.8] mb-16">
+          Ready to <br /> <span className="bg-[#ef6925] text-white px-4">Evolve?</span>
+        </h2>
+        <div className="flex flex-col md:flex-row gap-4 w-full max-w-2xl px-6">
+          <input 
+            type="text" 
+            placeholder="TYPE YOUR MOBILE" 
+            className="flex-1 bg-white border-4 border-black p-6 font-black text-2xl uppercase outline-none focus:bg-[#8B5CF6] focus:text-white transition-all"
+          />
+          <button className="bg-black text-white px-12 py-6 border-4 border-black font-black text-2xl hover:bg-[#ef6925] transition-all shadow-[8px_8px_0px_#000]">
+            CALL ME!
+          </button>
+        </div>
+      </section>
+
+      {/* 6. SUBTLE FOOTER BAR */}
+      <footer className="bg-black text-white py-10 flex flex-col md:flex-row justify-between items-center px-10 gap-6">
+        <div className="font-black text-2xl uppercase italic tracking-tighter">
+          NEXUS<span className="text-[#ef6925]">ADMIT</span>
+        </div>
+        <div className="flex gap-10 text-[10px] font-mono font-bold tracking-[0.3em] text-zinc-500 uppercase">
+          <span>©2026 Bengaluru Admissions</span>
+          <span>Privacy Protocol</span>
+          <span>Terms of Play</span>
+        </div>
+      </footer>
+    </div>
   );
 };
 
-export default Footer;
+export default IndustrialFunky;
