@@ -1,129 +1,96 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Home, Layers, Mail, BookOpenText } from 'lucide-react';
+// Replaced Gamepad2 with MessageCircle
+import { Home, Layers, Mail, BookOpenText, Sparkles, MessageCircle, Command, ArrowRight } from 'lucide-react';
 
-// Using your specified color palette
 const navItems = [
-  { name: 'Home', path: '/', icon: Home, color: 'bg-[#ef6925]' }, // Industrial Orange
-  { name: 'About', path: '/about', icon: BookOpenText, color: 'bg-white' }, 
-  { name: 'Gallery', path: '/blog', icon: Layers, color: 'bg-[#8B5CF6]' }, // Funky Purple
-  { name: 'Contact', path: '/contact', icon: Mail, color: 'bg-black' },
+  { name: 'Home', path: '/', icon: Home },
+  { name: 'About', path: '/about', icon: BookOpenText },
+  { name: 'Gallery', path: '/blog', icon: Layers },
+  { name: 'Contact', path: '/contact', icon: Mail },
 ];
 
-const VibrantAdaptiveNav = () => {
+const ModernWideNav = () => {
   const [hovered, setHovered] = useState(null);
   const location = useLocation();
 
   return (
-    <>
-      {/* --- DESKTOP NAVIGATION (Brutal Right Bar) --- */}
-      <nav className="fixed right-8 top-1/2 -translate-y-1/2 z-[100] hidden lg:block">
-        <motion.div
-          className="relative flex flex-col gap-4 p-3 bg-white border-[4px] border-black shadow-[8px_8px_0px_#000]"
+    <header className="fixed top-0 left-0 right-0 z-[100] px-6 py-4">
+      <div className="max-w-7xl mx-auto flex items-center gap-4">
+        
+        {/* 1. Brand Tile */}
+        <motion.div 
+          whileHover={{ scale: 0.98 }}
+          className="h-14 px-6 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border border-zinc-200 dark:border-white/10 rounded-2xl flex items-center gap-3 shadow-sm"
         >
-          {navItems.map((item, idx) => {
-            const isActive = location.pathname === item.path;
-            const Icon = item.icon;
-            const isHovered = hovered === idx;
+          <div className="w-8 h-8 bg-black dark:bg-white rounded-lg flex items-center justify-center">
+            <Command size={18} className="text-white dark:text-black" />
+          </div>
+          <span className="font-bold tracking-tighter uppercase text-sm hidden sm:block">Nexus Studio</span>
+        </motion.div>
 
-            return (
-              <Link
-                key={item.name}
-                to={item.path}
-                onMouseEnter={() => setHovered(idx)}
-                onMouseLeave={() => setHovered(null)}
-                className="relative z-10 w-14 h-14 flex items-center justify-center group"
-              >
-                {/* Square Background for Active/Hover */}
-                <AnimatePresence>
-                  {(isHovered || isActive) && (
-                    <motion.div
-                      layoutId="industrial-square"
-                      className={`absolute inset-0 z-0 border-2 border-black shadow-[4px_4px_0px_#000] ${item.color}`}
-                      initial={{ scale: 0.8, rotate: -10 }}
-                      animate={{ scale: 1, rotate: 0 }}
-                      exit={{ scale: 0.8, rotate: 10 }}
-                      transition={{ type: "spring", stiffness: 500, damping: 25 }}
+        {/* 2. Main Navigation Bento */}
+        <nav className="flex-1 h-14 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border border-zinc-200 dark:border-white/10 rounded-2xl flex items-center justify-center px-2 shadow-sm relative overflow-hidden">
+          <div className="flex items-center gap-1 w-full justify-around md:justify-center md:gap-8">
+            {navItems.map((item, idx) => {
+              const isActive = location.pathname === item.path;
+              const isHovered = hovered === idx;
+
+              return (
+                <Link
+                  key={item.name}
+                  to={item.path}
+                  onMouseEnter={() => setHovered(idx)}
+                  onMouseLeave={() => setHovered(null)}
+                  className="relative py-2 px-4 group"
+                >
+                  <span className={`relative z-10 text-sm font-medium transition-colors duration-300 ${
+                    isActive || isHovered ? 'text-black dark:text-white' : 'text-zinc-500'
+                  }`}>
+                    {item.name}
+                  </span>
+                  
+                  {isActive && (
+                    <motion.div 
+                      layoutId="nav-underline"
+                      className="absolute bottom-0 left-4 right-4 h-0.5 bg-black dark:bg-white"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
-                </AnimatePresence>
-
-                <motion.div
-                  className="relative z-10"
-                  animate={{
-                    color: (isHovered || isActive) ? (item.color === 'bg-black' ? "#fff" : "#000") : "#000",
-                    scale: isHovered ? 1.2 : 1
-                  }}
-                >
-                  <Icon size={24} strokeWidth={3} />
-                </motion.div>
-
-                {/* Tooltip (Sticker Style) */}
-                <AnimatePresence>
-                  {isHovered && (
-                    <motion.div
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: -10 }}
-                      exit={{ opacity: 0, x: 20 }}
-                      className={`absolute right-full mr-6 px-4 py-2 border-4 border-black font-black uppercase text-xs tracking-tighter shadow-[4px_4px_0px_#000] whitespace-nowrap ${item.color} ${item.color === 'bg-black' ? 'text-white' : 'text-black'}`}
-                    >
-                      {item.name}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </Link>
-            );
-          })}
-
-          <div className="h-1 w-full bg-black my-1" />
-
-          {/* Special Buttons - Wrapped in the same Industrial Style */}
-          <div className="flex flex-col gap-4 items-center">
-            <div className="hover:rotate-12 transition-transform cursor-pointer">
-               {/* Replace with your Chatbot component */}
-               <div className="w-10 h-10 bg-[#ef6925] border-2 border-black flex items-center justify-center shadow-[3px_3px_0px_#000] text-white font-black">?</div>
-            </div>
-            <div className="hover:-rotate-12 transition-transform cursor-pointer">
-               {/* Replace with your SnakeGame component */}
-               <div className="w-10 h-10 bg-[#8B5CF6] border-2 border-black flex items-center justify-center shadow-[3px_3px_0px_#000] text-white font-black">S</div>
-            </div>
+                </Link>
+              );
+            })}
           </div>
-        </motion.div>
-      </nav>
+        </nav>
 
-      {/* --- MOBILE NAVIGATION (Brutal Bottom Bar) --- */}
-      <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[99] lg:hidden w-full px-4 flex justify-center">
-        <div className="flex items-center gap-3 bg-white border-[4px] border-black p-2 shadow-[6px_6px_0px_#000]">
-          {navItems.map((item) => {
-            const isActive = location.pathname === item.path;
-            const Icon = item.icon;
-
-            return (
-              <Link
-                key={item.name}
-                to={item.path}
-                className={`relative w-12 h-12 flex items-center justify-center transition-all ${isActive ? `${item.color} border-2 border-black shadow-[3px_3px_0px_#000]` : ''}`}
-              >
-                <Icon 
-                  size={20} 
-                  strokeWidth={3} 
-                  color={isActive && item.color === 'bg-black' ? "#fff" : "#000"} 
-                />
-              </Link>
-            );
-          })}
-          
-          <div className="w-1 h-8 bg-black mx-1" />
-          
-          <div className="flex gap-2">
-            <div className="w-10 h-10 bg-[#ef6925] border-2 border-black flex items-center justify-center shadow-[2px_2px_0px_#000] text-white">?</div>
-            <div className="w-10 h-10 bg-[#8B5CF6] border-2 border-black flex items-center justify-center shadow-[2px_2px_0px_#000] text-white">S</div>
+        {/* 3. Utility / CTA Bento */}
+        <div className="hidden md:flex items-center gap-2 h-14">
+          <div className="flex items-center gap-1 h-full px-2 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border border-zinc-200 dark:border-white/10 rounded-2xl shadow-sm">
+             <button className="p-2 hover:bg-zinc-100 dark:hover:bg-white/10 rounded-xl transition-colors text-orange-500">
+               <Sparkles size={20} />
+             </button>
+             
+             {/* WhatsApp Icon Replaces Gamepad2 */}
+             <button 
+                onClick={() => window.open('https://wa.me/YOUR_NUMBER', '_blank')}
+                className="p-2 hover:bg-zinc-100 dark:hover:bg-white/10 rounded-xl transition-colors text-emerald-500"
+             >
+               <MessageCircle size={20} />
+             </button>
           </div>
+
+          <motion.button 
+            whileHover={{ x: 5 }}
+            className="h-full px-6 bg-black dark:bg-white text-white dark:text-black rounded-2xl font-bold text-xs uppercase tracking-widest flex items-center gap-2 shadow-lg"
+          >
+            Hire Us <ArrowRight size={14} />
+          </motion.button>
         </div>
-      </nav>
-    </>
+
+      </div>
+    </header>
   );
 };
 
-export default VibrantAdaptiveNav;
+export default ModernWideNav;

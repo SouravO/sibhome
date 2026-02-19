@@ -1,176 +1,112 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { 
-  Globe, 
-  Sparkles, 
-  Command, 
-  Ghost, 
-  ArrowUpRight, 
-  Zap, 
-  Star, 
-  Move
-} from 'lucide-react';
+import { Send, Github, Twitter, Mail, ArrowUpRight, Globe } from 'lucide-react';
 
-const IndustrialFunky = () => {
-  const constraintsRef = useRef(null);
-  const { scrollYProgress } = useScroll();
-  
-  // Parallax for the big background text
-  const xLeft = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"]);
+const ModernBentoFooter = () => {
+  const currentYear = new Date().getFullYear();
 
   return (
-    <div className="bg-[#8B5CF6] text-black font-sans overflow-x-hidden selection:bg-[#ef6925] selection:text-white">
-      
-      {/* 1. PHYSICS LAYER (Draggable "Stickers" throughout the site) */}
-      <div ref={constraintsRef} className="fixed inset-0 z-50 pointer-events-none">
-        {[
-          { Icon: Zap, top: '15%', left: '10%', label: 'FAST' },
-          { Icon: Star, top: '60%', left: '85%', label: 'ELITE' },
-          { Icon: Globe, top: '25%', right: '15%', label: 'BLR' },
-          { Icon: Ghost, top: '75%', left: '15%', label: 'BOO!' },
-        ].map((item, i) => (
-          <motion.div
-            key={i}
-            drag
-            dragConstraints={constraintsRef}
-            className="absolute p-4 bg-white border-4 border-black shadow-[6px_6px_0px_#000] pointer-events-auto cursor-grab active:cursor-grabbing flex items-center gap-3"
-            style={{ top: item.top, left: item.left, right: item.right }}
-          >
-            <item.Icon size={24} />
-            <span className="font-black text-xs uppercase tracking-tighter">{item.label}</span>
-          </motion.div>
-        ))}
-      </div>
+    <footer className="relative bg-[#0a0a0a] text-white pt-20 pb-10 px-6 overflow-hidden">
+      {/* Background Gradient Glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-gradient-to-b from-blue-600/10 to-transparent blur-[120px] pointer-events-none" />
 
-      {/* 2. HERO SECTION */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden">
-        {/* Grainy Noise Overlay */}
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none z-10" />
-        
-        <motion.div 
-          style={{ x: xLeft }}
-          className="absolute top-20 left-0 whitespace-nowrap text-[18vw] font-black opacity-10 select-none leading-none"
-        >
-          BENGALURU • BENGALURU • BENGALURU
-        </motion.div>
-
-        <div className="relative z-20 text-center px-6">
-          <motion.div 
-            initial={{ rotate: -5, scale: 0.9 }}
-            animate={{ rotate: 0, scale: 1 }}
-            className="inline-block px-6 py-2 bg-[#ef6925] text-white border-4 border-black shadow-[8px_8px_0px_#000] mb-8"
-          >
-            <p className="font-black uppercase tracking-widest text-sm">Now Admitting 2026</p>
-          </motion.div>
-
-          <h1 className="text-7xl md:text-[12rem] font-black leading-[0.8] tracking-tighter uppercase mb-12">
-            STAY <br /> 
-            <span className="text-white italic font-serif lowercase drop-shadow-[6px_6px_0px_#000]">funky.</span> <br />
-            GET IN.
-          </h1>
-
-          <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
-            <button className="px-12 py-6 bg-black text-white text-2xl font-black border-4 border-black hover:bg-white hover:text-black transition-all shadow-[10px_10px_0px_#fff]">
-              BOOK CALL
-            </button>
-            <div className="flex items-center gap-4 bg-white p-4 border-4 border-black shadow-[6px_6px_0px_#000]">
-              <Move className="animate-bounce" />
-              <p className="font-bold uppercase text-xs">Drag the icons to play!</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. MARQUEE BAR */}
-      <div className="bg-white border-y-8 border-black py-6 overflow-hidden flex">
-        <motion.div 
-          animate={{ x: [0, -1000] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="flex whitespace-nowrap gap-20 items-center"
-        >
-          {[...Array(6)].map((_, i) => (
-            <div key={i} className="flex items-center gap-10">
-              <span className="text-5xl font-black uppercase text-black italic">Admission Guaranteed</span>
-              <div className="w-12 h-12 bg-[#ef6925] border-4 border-black rotate-45" />
-            </div>
-          ))}
-        </motion.div>
-      </div>
-
-      {/* 4. CONTENT GRID (Brutalist Bento) */}
-      <section className="py-40 px-6 max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-12 gap-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
           
-          <div className="md:col-span-8 bg-white border-8 border-black p-12 shadow-[15px_15px_0px_#000] relative group">
-            <h2 className="text-6xl font-black uppercase mb-6 leading-none">Engineering <br />The Future.</h2>
-            <p className="text-xl font-bold text-zinc-600 mb-10 max-w-md">We don't do boring counseling. We do strategic career architecture.</p>
-            <div className="flex gap-4">
-              <span className="px-4 py-2 bg-black text-white font-black text-xs">01. SHORTLIST</span>
-              <span className="px-4 py-2 bg-black text-white font-black text-xs">02. ADMIT</span>
-              <span className="px-4 py-2 bg-black text-white font-black text-xs">03. FLY</span>
-            </div>
-            <ArrowUpRight className="absolute top-10 right-10 group-hover:rotate-45 transition-transform" size={48} />
-          </div>
-
-          <div className="md:col-span-4 bg-[#ef6925] border-8 border-black p-12 shadow-[15px_15px_0px_#000] flex flex-col justify-between text-white">
-            <Sparkles size={60} strokeWidth={3} />
+          {/* Main CTA Card - Span 8 */}
+          <motion.div 
+            whileHover={{ y: -5 }}
+            className="md:col-span-8 bg-zinc-900/50 border border-white/10 p-10 rounded-3xl backdrop-blur-md flex flex-col justify-between group"
+          >
             <div>
-              <p className="text-7xl font-black leading-none uppercase">100%</p>
-              <p className="font-bold uppercase tracking-widest mt-4">Local Presence</p>
+              <h2 className="text-5xl md:text-7xl font-medium tracking-tight mb-8">
+                Let's build <br /> 
+                <span className="text-zinc-500 group-hover:text-blue-400 transition-colors duration-500">something iconic.</span>
+              </h2>
+              <button className="flex items-center gap-2 bg-white text-black px-8 py-4 rounded-full font-bold hover:bg-blue-400 transition-all">
+                START A PROJECT <Send size={18} />
+              </button>
+            </div>
+            
+            <div className="mt-12 flex gap-8">
+               <div>
+                 <p className="text-zinc-500 text-xs uppercase tracking-widest mb-2">Email us</p>
+                 <a href="mailto:hello@nexus.com" className="text-xl hover:underline decoration-blue-500 underline-offset-8">hello@nexus.com</a>
+               </div>
+               <div>
+                 <p className="text-zinc-500 text-xs uppercase tracking-widest mb-2">Call us</p>
+                 <a href="tel:+123456789" className="text-xl">+1 (234) 567-890</a>
+               </div>
+            </div>
+          </motion.div>
+
+          {/* Social Links Bento - Span 4 */}
+          <div className="md:col-span-4 grid grid-cols-2 gap-4">
+            {[
+              { icon: <Twitter />, label: 'Twitter', color: 'hover:bg-sky-500' },
+              { icon: <Github />, label: 'Github', color: 'hover:bg-zinc-700' },
+              { icon: <Globe />, label: 'Dribbble', color: 'hover:bg-pink-500' },
+              { icon: <Mail />, label: 'Substack', color: 'hover:bg-orange-500' },
+            ].map((social) => (
+              <motion.a
+                key={social.label}
+                href="#"
+                whileHover={{ scale: 0.95 }}
+                className={`flex flex-col items-center justify-center p-6 bg-zinc-900/50 border border-white/10 rounded-3xl transition-colors ${social.color}`}
+              >
+                {social.icon}
+                <span className="text-xs mt-2 font-medium uppercase tracking-tighter">{social.label}</span>
+              </motion.a>
+            ))}
+          </div>
+
+          {/* Location/Time Card - Span 4 */}
+          <div className="md:col-span-4 bg-blue-600 p-8 rounded-3xl flex flex-col justify-between overflow-hidden relative">
+             <div className="z-10">
+                <p className="font-bold text-2xl">BENGALURU, IN</p>
+                <p className="text-blue-200 text-sm">12:42 PM GMT+5:30</p>
+             </div>
+             <div className="absolute -right-8 -bottom-8 opacity-20 rotate-12">
+                <Globe size={200} />
+             </div>
+          </div>
+
+          {/* Newsletter Card - Span 8 */}
+          <div className="md:col-span-8 bg-zinc-900/50 border border-white/10 p-8 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="text-center md:text-left">
+              <p className="font-bold text-xl">The Nexus Dispatch</p>
+              <p className="text-zinc-400 text-sm">Insights on design, code, and the future.</p>
+            </div>
+            <div className="flex w-full md:w-auto bg-black/50 border border-white/10 rounded-full p-2">
+              <input 
+                type="email" 
+                placeholder="email@example.com" 
+                className="bg-transparent px-4 py-2 outline-none text-sm w-full"
+              />
+              <button className="bg-white text-black px-6 py-2 rounded-full font-bold text-sm">Join</button>
             </div>
           </div>
+        </div>
 
-          <div className="md:col-span-5 bg-black text-white border-8 border-black p-12 shadow-[15px_15px_0px_#ef6925]">
-             <h3 className="text-4xl font-black uppercase mb-4 italic">The BLR Edge</h3>
-             <p className="text-zinc-400 font-bold italic">"Studying in Bengaluru is not a degree, it's a global internship."</p>
+        {/* Legal & Footer Bottom */}
+        <div className="mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-zinc-500 text-xs">
+          <p>© {currentYear} NEXUS ADMIT. ALL RIGHTS RESERVED.</p>
+          <div className="flex gap-6 mt-4 md:mt-0">
+            <a href="#" className="hover:text-white transition-colors">PRIVACY POLICY</a>
+            <a href="#" className="hover:text-white transition-colors">TERMS OF SERVICE</a>
+            <a href="#" className="hover:text-white transition-colors">COOKIES</a>
           </div>
-
-          <div className="md:col-span-7 bg-white border-8 border-black p-12 shadow-[15px_15px_0px_#000] flex items-center justify-between overflow-hidden">
-             <div className="space-y-2">
-                <p className="text-4xl font-black uppercase">Start Your</p>
-                <p className="text-6xl font-black uppercase text-[#ef6925] drop-shadow-[2px_2px_0px_#000]">Journey.</p>
-             </div>
-             <motion.div 
-              animate={{ rotate: 360 }}
-              transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
-              className="w-32 h-32 bg-[#8B5CF6] border-4 border-black rounded-full flex items-center justify-center"
-             >
-                <Command size={48} color="white" />
-             </motion.div>
-          </div>
+          <motion.button 
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            whileHover={{ y: -3 }}
+            className="mt-6 md:mt-0 flex items-center gap-2 group"
+          >
+            BACK TO TOP <div className="p-2 border border-zinc-700 rounded-full group-hover:border-white"><ArrowUpRight size={14} /></div>
+          </motion.button>
         </div>
-      </section>
-
-      {/* 5. CTA SECTION */}
-      <section className="py-40 bg-white border-t-8 border-black flex flex-col items-center justify-center text-center">
-        <h2 className="text-6xl md:text-9xl font-black uppercase leading-[0.8] mb-16">
-          Ready to <br /> <span className="bg-[#ef6925] text-white px-4">Evolve?</span>
-        </h2>
-        <div className="flex flex-col md:flex-row gap-4 w-full max-w-2xl px-6">
-          <input 
-            type="text" 
-            placeholder="TYPE YOUR MOBILE" 
-            className="flex-1 bg-white border-4 border-black p-6 font-black text-2xl uppercase outline-none focus:bg-[#8B5CF6] focus:text-white transition-all"
-          />
-          <button className="bg-black text-white px-12 py-6 border-4 border-black font-black text-2xl hover:bg-[#ef6925] transition-all shadow-[8px_8px_0px_#000]">
-            CALL ME!
-          </button>
-        </div>
-      </section>
-
-      {/* 6. SUBTLE FOOTER BAR */}
-      <footer className="bg-black text-white py-10 flex flex-col md:flex-row justify-between items-center px-10 gap-6">
-        <div className="font-black text-2xl uppercase italic tracking-tighter">
-          NEXUS<span className="text-[#ef6925]">ADMIT</span>
-        </div>
-        <div className="flex gap-10 text-[10px] font-mono font-bold tracking-[0.3em] text-zinc-500 uppercase">
-          <span>©2026 Bengaluru Admissions</span>
-          <span>Privacy Protocol</span>
-          <span>Terms of Play</span>
-        </div>
-      </footer>
-    </div>
+      </div>
+    </footer>
   );
 };
 
-export default IndustrialFunky;
+export default ModernBentoFooter;

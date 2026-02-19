@@ -1,261 +1,191 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { Terminal, Send, Phone, Mail, Globe, AlertCircle, HardHat, Crosshair, Zap, User, Hash } from 'lucide-react';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { MessageCircle, Mail, HelpCircle, ArrowRight, Instagram, Twitter, Linkedin, MapPin, ExternalLink } from 'lucide-react';
 
-const IndustrialContactPortal = () => {
-  const containerRef = useRef(null);
-  const formRef = useRef(null);
-  const nameRef = useRef(null);
-  const phoneRef = useRef(null);
-  const emailRef = useRef(null);
-  const subjectRef = useRef(null);
-  const messageRef = useRef(null);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
-
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 80, damping: 25 });
-  const bgTextX = useTransform(smoothProgress, [0, 1], ["0%", "-20%"]);
-
- const handleSubmit = (e) => {
-  e.preventDefault();
-
-  const name = nameRef.current.value;
-  const phone = phoneRef.current.value;
-  const email = emailRef.current.value;
-  const subject = subjectRef.current.value;
-  const message = messageRef.current.value;
-
-  const subjectText = `Startup School Inquiry: ${subject}`;
-  const bodyText = `Name: ${name}
-Phone: ${phone}
-Email: ${email}
-
-Message:
-${message}`;
-
-  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-  if (isMobile) {
-    // 📱 MOBILE → keep current behavior
-    const mailtoLink = `mailto:info@mystartupschool.com?subject=${encodeURIComponent(
-      subjectText
-    )}&body=${encodeURIComponent(bodyText)}`;
-
-    window.location.href = mailtoLink;
-  } else {
-    // 💻 DESKTOP/LAPTOP → open Gmail website
-    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=info@mystartupschool.com&su=${encodeURIComponent(
-      subjectText
-    )}&body=${encodeURIComponent(bodyText)}`;
-
-    window.open(gmailUrl, "_blank");
-  }
-};
-
+const SIB_SpotifyContact = () => {
+  const categories = [
+    { 
+        title: "Admissions Support", 
+        desc: "Eligibility, application tracking, and university protocols.", 
+        icon: <HelpCircle className="text-cyan-400" size={24} /> 
+    },
+    { 
+        title: "Technical Interface", 
+        desc: "Issues with portal login, document sync, or digital assets.", 
+        icon: <MessageCircle className="text-cyan-400" size={24} /> 
+    },
+    { 
+        title: "Partnerships", 
+        desc: "Institutional collaborations and ecosystem expansion.", 
+        icon: <Mail className="text-cyan-400" size={24} /> 
+    },
+  ];
 
   return (
-    <div ref={containerRef} className="bg-[#ef6925] text-black font-sans selection:bg-[#e1ff00] selection:text-black overflow-x-hidden min-h-screen">
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-cyan-500 selection:text-black">
       
-      {/* 1. STATUS HUD */}
-      <div className="fixed top-0 left-0 w-full z-[100] pointer-events-none p-6 flex justify-between">
-        <div className="flex items-center gap-4 bg-black text-[#e1ff00] px-6 py-2 border-r-4 border-b-4 border-[#e1ff00] pointer-events-auto">
-          <Terminal size={18} />
-          <span className="font-mono text-[10px] tracking-[0.4em] uppercase font-bold hidden sm:inline">Uplink_Established</span>
+      {/* SECTION 1: BOLD HEADER (Spotify "Big Type" Style) */}
+      <section className="pt-32 pb-16 px-6 md:px-12 border-b border-zinc-900">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h1 className="text-[13vw] md:text-[9vw] font-black leading-[0.8] tracking-tighter uppercase mb-8">
+              LET'S<br /><span className="text-zinc-500">TALK.</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-zinc-400 max-w-2xl font-medium leading-tight">
+              Direct uplink to the Study in Bengaluru admission network. 
+              Find the right channel for your inquiry.
+            </p>
+          </motion.div>
         </div>
-      </div>
-
-      {/* 2. KINETIC HEADER */}
-      <section className="h-[60vh] sm:h-[70vh] flex flex-col items-center justify-center relative border-b-[12px] sm:border-b-[20px] border-black pt-16 sm:pt-20 overflow-hidden bg-[#a5cb3a]">
-        <motion.div 
-          style={{ x: bgTextX }} 
-          className="absolute top-10 sm:top-20 left-0 flex whitespace-nowrap opacity-20 pointer-events-none"
-        >
-          {[...Array(3)].map((_, i) => (
-            <span key={i} className="text-[12vh] sm:text-[15vh] md:text-[20vh] font-black mr-10 sm:mr-20 text-white">
-              ESTABLISH_CONNECTION // UPLINK //
-            </span>
-          ))}
-        </motion.div>
-
-        <motion.div 
-          initial={{ y: 30, opacity: 0 }} 
-          animate={{ y: 0, opacity: 1 }}
-          className="z-10 text-center px-4"
-        >
-          <div className="bg-black text-[#a5cb3a] inline-block px-4 py-1 mb-4 sm:mb-6 skew-x-[-12deg] shadow-[6px_6px_0px_rgba(0,0,0,0.15)]">
-            <p className="font-mono text-[9px] sm:text-[11px] tracking-[0.2em] uppercase font-black px-2">
-              Direct Transmission Protocol
-            </p>
-          </div>
-
-          <h1 className="text-[18vw] sm:text-[16vw] md:text-[14vw] font-[1000] uppercase leading-[0.75] tracking-tighter italic text-black">
-            Contact <br /> 
-            <span className="text-white drop-shadow-[4px_4px_0px_#000] sm:drop-shadow-[10px_10px_0px_#000] not-italic">
-              US
-            </span>
-            <span className="text-black">.</span>
-          </h1>
-
-          <div className="mt-10 flex flex-col items-center">
-            <div className="h-[4px] w-20 bg-black mb-4" />
-            <p className="font-mono text-[10px] sm:text-xs uppercase font-black text-black tracking-[0.3em] leading-none">
-              STARTUP PARK |  BENGALURU
-            </p>
-            <p className="font-mono text-[9px] uppercase text-black/60 mt-2">
-             3rd Floor
-            </p>
-          </div>
-        </motion.div>
       </section>
 
-      {/* 3. THE TRANSMISSION FORM */}
-      <section className="bg-[#1da89d] py-12 sm:py-16 md:py-24 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12">
+      {/* SECTION 2: CONTENT GRID */}
+      <main className="max-w-7xl mx-auto px-6 md:px-12 py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-24">
           
-          {/* Left Side: Info */}
-          <div className="lg:col-span-4 space-y-6 sm:space-y-8">
-            <div className="border-l-4 sm:border-l-[12px] border-black pl-4 sm:pl-6">
-              <h2 className="text-5xl sm:text-6xl font-[1000] uppercase mb-3 sm:mb-4 leading-[0.8] tracking-tighter text-black">
-                Priority <br/>
-                <span className="text-white drop-shadow-[4px_4px_0px_#000]">Comms</span>
-              </h2>
-              <p className="font-mono text-xs sm:text-sm font-black text-black leading-tight mt-6 uppercase">
-               Have a question or just want to say hello? Drop us a line and our team will get back to you within 24 hours.
-              </p>
-            </div>
-
-            <div className="space-y-3">
-              <ContactDetail icon={<Phone size={20}/>} label="VOICE_LINE" value="+91-9036354727" color="#000000" />
-              <ContactDetail icon={<Mail size={20}/>} label="ENCRYPTED_MAIL" value="info@mystartupschool.com" color="#ffffff"  />
-              <ContactDetail icon={<Globe size={20}/>} label="GLOBAL_NODE" value="BENGALURU" color="#000000" />
-            </div>
-          </div>
-
-          {/* Right Side: Form */}
-          <div className="lg:col-span-8 relative group">
-            <div className="absolute inset-0 bg-[#f9bb1a] translate-x-3 translate-y-3 sm:translate-x-5 sm:translate-y-5 transition-transform duration-300 group-hover:translate-x-3 group-hover:translate-y-3" />
+          {/* LEFT COLUMN: NAVIGATION & FORM */}
+          <div className="lg:col-span-7">
+            <h2 className="text-xs font-bold uppercase tracking-[0.3em] text-cyan-500 mb-10">Select Category</h2>
             
-            <div className="relative bg-black p-1 border-2 border-black group-hover:-translate-x-1 group-hover:-translate-y-1 transition-transform duration-300">
-              <form ref={formRef} onSubmit={handleSubmit} className="bg-black p-6 sm:p-10 border border-white/20 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+            <div className="space-y-4 mb-24">
+              {categories.map((item, i) => (
+                <motion.div 
+                  key={i}
+                  whileHover={{ backgroundColor: "rgba(39, 39, 42, 0.8)", x: 10 }}
+                  className="group flex items-center justify-between p-8 bg-zinc-900/40 rounded-2xl cursor-pointer transition-all border border-transparent hover:border-zinc-700"
+                >
+                  <div className="flex items-center gap-6">
+                    <div className="w-14 h-14 bg-black rounded-full flex items-center justify-center border border-zinc-800">
+                      {item.icon}
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold tracking-tight">{item.title}</h3>
+                      <p className="text-zinc-500 text-sm mt-1">{item.desc}</p>
+                    </div>
+                  </div>
+                  <ArrowRight className="text-zinc-700 group-hover:text-white transition-colors" />
+                </motion.div>
+              ))}
+            </div>
 
-                {/* NAME */}
-                <div className="md:col-span-1 flex flex-col">
-                  <label className="font-mono text-[10px] font-black mb-2 text-[#1da89d] tracking-widest uppercase">Name</label>
-                  <input ref={nameRef} type="text" required className="bg-white/5 border-b-2 border-white/20 p-3 text-white focus:border-[#e1ff00] outline-none transition-all font-bold uppercase placeholder:text-white/10" placeholder="IDENTIFY SELF..." />
+            {/* INTEGRATED CONTACT FORM */}
+            <div className="space-y-12">
+              <div>
+                <h2 className="text-4xl font-black uppercase tracking-tighter mb-4">Direct Transmission</h2>
+                <p className="text-zinc-500 font-medium">Fill out the protocol below and our team will respond within 24 hours.</p>
+              </div>
+
+              <form className="grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={(e) => e.preventDefault()}>
+                <input 
+                    type="text" 
+                    placeholder="Full Name" 
+                    className="col-span-1 bg-zinc-900 border border-zinc-800 p-5 rounded-2xl focus:ring-2 focus:ring-cyan-500 outline-none transition-all placeholder:text-zinc-600 font-medium" 
+                />
+                <input 
+                    type="email" 
+                    placeholder="Email Address" 
+                    className="col-span-1 bg-zinc-900 border border-zinc-800 p-5 rounded-2xl focus:ring-2 focus:ring-cyan-500 outline-none transition-all placeholder:text-zinc-600 font-medium" 
+                />
+                <div className="md:col-span-2">
+                  <textarea 
+                    rows="6" 
+                    placeholder="Describe your inquiry..." 
+                    className="w-full bg-zinc-900 border border-zinc-800 p-5 rounded-2xl focus:ring-2 focus:ring-cyan-500 outline-none transition-all placeholder:text-zinc-600 font-medium" 
+                  />
                 </div>
-
-                {/* NUMBER */}
-                <div className="md:col-span-1 flex flex-col">
-                  <label className="font-mono text-[10px] font-black mb-2 text-[#1da89d] tracking-widest uppercase">Phone</label>
-                  <input ref={phoneRef} type="tel" required className="bg-white/5 border-b-2 border-white/20 p-3 text-white focus:border-[#e1ff00] outline-none transition-all font-bold uppercase placeholder:text-white/10" placeholder="+00 000 000 000" />
-                </div>
-
-                {/* EMAIL */}
-                <div className="md:col-span-1 flex flex-col">
-                  <label className="font-mono text-[10px] font-black mb-2 text-[#1da89d] tracking-widest uppercase">Email</label>
-                  <input ref={emailRef} type="email" required className="bg-white/5 border-b-2 border-white/20 p-3 text-white focus:border-[#e1ff00] outline-none transition-all font-bold uppercase placeholder:text-white/10" placeholder="UPLINK@DOMAIN.COM" />
-                </div>
-
-                {/* SUBJECT */}
-                <div className="md:col-span-1 flex flex-col">
-                  <label className="font-mono text-[10px] font-black mb-2 text-[#1da89d] tracking-widest uppercase">Subject_Protocol</label>
-                  <select ref={subjectRef} className="bg-white/5 border-b-2 border-white/20 p-3 text-white focus:border-[#e1ff00] outline-none transition-all font-bold uppercase cursor-pointer">
-                    <option className="bg-black text-white">General Inquiry</option>
-                    <option className="bg-black text-white">Joinee</option>
-                    <option className="bg-black text-white">Partnership</option>
-                    <option className="bg-black text-white">Emergency Support</option>
-                  </select>
-                </div>
-
-                {/* MESSAGE */}
-                <div className="md:col-span-2 flex flex-col">
-                  <label className="font-mono text-[10px] font-black mb-2 text-[#1da89d] tracking-widest uppercase">Message</label>
-                  <textarea ref={messageRef} rows="4" className="bg-white/5 border-b-2 border-white/20 p-3 text-white focus:border-[#e1ff00] outline-none transition-all font-bold uppercase placeholder:text-white/10" placeholder="ENTER DATA STREAM..."></textarea>
-                </div>
-
-                {/* SUBMIT */}
-                <button type="submit" className="md:col-span-2 bg-[#1da89d] text-black font-[1000] py-6 flex items-center justify-center gap-4 hover:bg-[#e1ff00] transition-all uppercase italic text-xl group border-2 border-[#1da89d]">
-                  
-                  Submit 
-                  <Send size={24} className="group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />
-                </button>
+                <motion.button 
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="md:col-span-2 bg-white text-black font-black uppercase py-6 rounded-full text-lg tracking-widest hover:bg-cyan-500 transition-colors"
+                >
+                  Send Transmission
+                </motion.button>
               </form>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* 4. GEOSPATIAL MAPPING */}
-     <section className="py-24 border-t-[20px] border-black bg-white relative">
-  <div className="absolute top-0 right-10 -translate-y-1/2 bg-black text-[#e1ff00] p-4 z-10 flex items-center gap-3 border-2 border-white">
-    <Crosshair className="animate-spin" size={24} />
-    <span className="font-mono text-xs font-bold tracking-tighter">COORDINATES: 12.9918° N, 77.6593° E</span>
-  </div>
+          {/* RIGHT COLUMN: STICKY INFO PANEL */}
+          <div className="lg:col-span-5">
+            <div className="sticky top-12 space-y-16">
+              
+              {/* ADDRESS BLOCK */}
+              <div className="space-y-6">
+                <h4 className="text-xs font-bold uppercase tracking-[0.3em] text-cyan-500">Headquarters</h4>
+                <div className="flex gap-4">
+                    <div className="mt-1 text-zinc-500"><MapPin size={20}/></div>
+                    <p className="text-2xl font-bold leading-tight">
+                        Bengaluru Node // Innovation Hub<br />
+                        Karnataka, India 560001
+                    </p>
+                </div>
+                <a href="#" className="inline-flex items-center gap-2 text-zinc-400 hover:text-white transition-colors font-bold text-sm border-b border-zinc-800 pb-1">
+                    VIEW ON GOOGLE MAPS <ExternalLink size={14} />
+                </a>
+              </div>
 
-  <div className="max-w-7xl mx-auto px-6">
-    <div className="mb-12 flex items-end gap-6">
-      <h2 className="text-8xl font-black uppercase tracking-tighter text-black leading-[0.8]">Target <br/> Location.</h2>
-      <Zap size={60} fill="black" />
-    </div>
-    
-    <div className="h-[500px] w-full bg-slate-900 border-[15px] border-black relative grayscale hover:grayscale-0 transition-all duration-700 overflow-hidden group">
-      {/* Overlay to maintain the "Industrial" look until hovered */}
-      <div className="absolute inset-0 bg-[#e1ff00]/10 pointer-events-none group-hover:bg-transparent transition-colors z-10" />
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.7834012202534!2d77.61776687520675!3d12.921638315971478!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae15531d521e29%3A0x115e5b759f6d441c!2sStartup%20school%20by%20Ique!5e0!3m2!1sen!2sin!4v1770804220776!5m2!1sen!2sin" width="100%" height="100%" style={{ border: "0", width: "100%", height: "100%" }} allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              {/* SOCIAL CONNECT */}
+              <div className="space-y-6">
+                <h4 className="text-xs font-bold uppercase tracking-[0.3em] text-cyan-500">Social Uplink</h4>
+                <div className="flex gap-3">
+                  <SocialButton icon={<Instagram size={20}/>} label="Instagram" />
+                  <SocialButton icon={<Twitter size={20}/>} label="Twitter" />
+                  <SocialButton icon={<Linkedin size={20}/>} label="LinkedIn" />
+                </div>
+              </div>
 
-    </div>
-  </div>
-</section>
+              {/* URGENT SUPPORT CARD */}
+              <div className="p-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-[2.5rem] text-black shadow-2xl relative overflow-hidden group">
+                <div className="absolute -right-10 -top-10 w-40 h-40 bg-white/20 rounded-full blur-3xl group-hover:bg-white/30 transition-all duration-700" />
+                <h4 className="font-black text-3xl leading-none uppercase mb-2">Live Support?</h4>
+                <p className="text-black/70 font-bold mb-8 uppercase text-xs tracking-wider">Fast-track admission hotline</p>
+                
+                <div className="space-y-2">
+                    <p className="text-4xl font-black tracking-tighter">+91 (80) 4000 0000</p>
+                    <p className="text-sm font-bold opacity-60 uppercase">Available 09:00 — 18:00 IST</p>
+                </div>
+              </div>
 
-      {/* 5. EMERGENCY BANNER */}
-      <div className="bg-black text-[#e1ff00] py-6 overflow-hidden whitespace-nowrap border-y-4 border-white">
-        <motion.div 
-            animate={{ x: [0, -1000] }}
-            transition={{ repeat: Infinity, duration: 15, ease: "linear" }}
-            className="flex gap-20 font-mono font-black text-2xl italic"
-        >
-            {[...Array(10)].map((_, i) => (
-                <span key={i} className="flex items-center gap-6">
-                    <AlertCircle className="text-[#ef6925]" /> ADMISSIONS  <span className="text-white">STARTED</span>  <span className="text-[#ef6925]">//</span> JOIN NOW
-                </span>
-            ))}
-        </motion.div>
-      </div>
+              {/* SYSTEM STATUS FEED */}
+              <div className="flex items-center gap-3 px-6 py-4 bg-zinc-900/50 rounded-full border border-zinc-800 w-fit">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">Global Admissions System: Online</span>
+              </div>
 
-      <footer className="bg-black py-20 flex flex-col items-center">
-        <div className="bg-[#ef6925] p-4 mb-6 skew-x-12">
-            <HardHat size={50} className="text-white -skew-x-12" />
-        </div>
-        <p className="font-mono text-[11px] font-bold tracking-[0.6em] text-[#e1ff00] text-center px-6 uppercase">
-          THANKYOU <span className="text-white"></span> 
-        </p>
-        <div className="mt-8 flex gap-2">
-            <div className="w-8 h-2 bg-[#ef6925]"></div>
-            <div className="w-8 h-2 bg-[#e1ff00]"></div>
-            <div className="w-8 h-2 bg-white"></div>
+            </div>
           </div>
+
+        </div>
+      </main>
+
+      {/* MINIMAL FOOTER */}
+      <footer className="py-20 border-t border-zinc-900 px-6">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div className="font-black text-xl tracking-tighter">SIB // CONSULTANCY</div>
+            <div className="flex gap-8 text-xs font-bold text-zinc-500 uppercase tracking-widest">
+                <a href="#" className="hover:text-white transition-colors">Privacy</a>
+                <a href="#" className="hover:text-white transition-colors">Terms</a>
+                <a href="#" className="hover:text-white transition-colors">Portal</a>
+            </div>
+            <div className="text-zinc-600 font-mono text-[10px]">© 2026 BENGALURU, IN</div>
+        </div>
       </footer>
     </div>
   );
 };
 
-const ContactDetail = ({ icon, label, value, color ,size }) => (
-  <div className="group border-b-2 sm:border-b-4 border-black p-4 sm:p-6 flex items-center gap-4 sm:gap-6 hover:bg-black transition-all cursor-crosshair relative overflow-hidden bg-white/5 ">
-    <div 
-      className="p-2 sm:p-3 bg-black text-white group-hover:scale-110 transition-transform" 
-      style={{ backgroundColor: color === '#ffffff' ? '#ef6925' : 'black', color: color, width: size, height: size }}
-    >
-      {icon}
-    </div>
-    <div className="z-10 text-sm sm:text-base">
-      <p className="font-mono text-[8px] sm:text-[10px] font-black opacity-60 uppercase mb-1">{label}</p>
-      <p className="text-base sm:text-md font-black tracking-tight uppercase group-hover:text-white transition-colors break-all">{value}</p>
-    </div>
-    <div className="absolute bottom-0 left-0 w-1 h-0 bg-[#e1ff00] group-hover:h-full transition-all duration-300" />
-  </div>
+const SocialButton = ({ icon, label }) => (
+  <motion.a 
+    href="#" 
+    whileHover={{ y: -4, backgroundColor: "#fff", color: "#000" }}
+    className="w-14 h-14 flex items-center justify-center bg-zinc-900 border border-zinc-800 rounded-2xl transition-all"
+    title={label}
+  >
+    {icon}
+  </motion.a>
 );
 
-export default IndustrialContactPortal;
+export default SIB_SpotifyContact;
