@@ -24,23 +24,18 @@ const SIB_VibrantPortal = () => {
     ["circle(0% at 50% 50%)", "circle(150% at 50% 50%)"]
   );
 
+  // NEW: Dynamic Nav Color (Switches to black when the white tray/final section is active)
+  const navColor = useTransform(
+    smoothProgress,
+    [0, 0.24, 0.25, 0.65, 0.66],
+    ["#ffffff", "#ffffff", "#000000", "#000000", "#000000"]
+  );
+
   return (
     <div ref={containerRef} className="relative h-[800vh] bg-[#030005] text-white selection:bg-purple-500">
       
-      {/* FIXED HUD */}
-      <nav className="fixed top-0 w-full p-8 flex justify-between items-center z-[100] backdrop-blur-md border-b border-white/5">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-purple-400 to-purple-700 rounded-lg flex items-center justify-center shadow-[0_0_20px_rgba(168,85,247,0.4)]">
-            <Activity className="text-white" size={20} />
-          </div>
-          <span className="font-black tracking-tighter text-xl italic">SIB // CONSULTANCY</span>
-        </div>
-        <div className="flex items-center gap-6 font-mono text-[10px] tracking-widest uppercase opacity-60">
-          <span className="animate-pulse text-purple-400">● LIVE_FEED</span>
-          <Radio size={20} className="text-white" />
-        </div>
-      </nav>
-
+      {/* FIXED HUD - Moved z-index to 1000 and added dynamic color */}
+     
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         
         {/* SECTION 1: THE GLOW HERO */}
@@ -48,13 +43,12 @@ const SIB_VibrantPortal = () => {
           style={{ y: heroY }}
           className="absolute inset-0 h-full w-full flex flex-col items-center justify-center bg-black z-30"
         >
-          {/* Background Radial Glow */}
           <div className="absolute w-[600px] h-[600px] bg-purple-600/20 rounded-full blur-[120px] -z-10" />
           
           <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 1 }}>
             <h1 className="text-8xl md:text-[12vw] font-[1000] italic tracking-tighter leading-none text-center">
               STUDY IN <br /> 
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-white to-purple-400 animate-gradient-x">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-white to-purple-400">
                 BENGALURU
               </span>
             </h1>
@@ -64,12 +58,12 @@ const SIB_VibrantPortal = () => {
           </motion.div>
         </motion.section>
 
-        {/* SECTION 2: THE HORIZONTAL TRAY (High Contrast White/Purple) */}
+        {/* SECTION 2: THE HORIZONTAL TRAY */}
         <motion.div 
           style={{ x: trayX }}
           className="absolute inset-0 flex w-[300vw] h-full z-20 items-center bg-white"
         >
-          {/* Slide A: The Concept (Light Theme) */}
+          {/* Slide A: Light Theme */}
           <div className="w-screen h-full flex flex-col justify-center px-12 md:px-40 bg-white text-black">
              <span className="text-purple-600 font-black mb-4 tracking-widest uppercase">01 // THE BRIDGE</span>
              <h2 className="text-7xl md:text-9xl font-black uppercase italic leading-[0.85] mb-8 tracking-tighter">
@@ -79,7 +73,7 @@ const SIB_VibrantPortal = () => {
              <p className="max-w-xl text-xl text-black/60 font-medium">We break the complexity of Indian admissions using real-time node mapping.</p>
           </div>
 
-          {/* Slide B: Grid of Cards (Purple Gradient) */}
+          {/* Slide B: Dark Grid */}
           <div className="w-screen h-full flex items-center justify-center px-12 bg-[#0a0a0a]">
              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl">
                 <ServiceBox icon={<GraduationCap />} title="ADMISSIONS" />
@@ -87,7 +81,7 @@ const SIB_VibrantPortal = () => {
              </div>
           </div>
 
-          {/* Slide C: The Purple Vortex */}
+          {/* Slide C: Purple Vortex */}
           <div className="w-screen h-full flex items-center justify-center bg-purple-600">
              <div className="text-white text-center">
                 <Zap size={100} fill="white" className="mx-auto mb-6 animate-bounce" />
@@ -127,13 +121,12 @@ const SIB_VibrantPortal = () => {
 };
 
 // --- SUB-COMPONENTS ---
-
 const ServiceBox = ({ icon, title }) => (
   <div className="p-12 border-2 border-purple-500/20 bg-purple-500/5 rounded-3xl group transition-all hover:bg-purple-600 hover:border-purple-400">
     <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mb-8 text-purple-400 group-hover:text-white group-hover:bg-black/20 transition-all">
       {icon}
     </div>
-    <h3 className="text-3xl font-black uppercase italic mb-2 tracking-tighter">{title}</h3>
+    <h3 className="text-3xl font-black uppercase italic mb-2 tracking-tighter text-white">{title}</h3>
     <div className="w-0 group-hover:w-full h-1 bg-white transition-all duration-500" />
   </div>
 );
